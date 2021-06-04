@@ -1,0 +1,83 @@
+################ NOTES ################
+#
+# MYSQL INIT SCHEMA
+# add ./xmpp/init/01.sql from https://raw.githubusercontent.com/processone/ejabberd/master/sql/mysql.sql
+#
+# GET EJABBERD ADMIN OAUTH TOKEN
+# sudo docker-compose exec ejabberd ejabberdctl oauth_issue_token admin@localhost 315400000000 ejabberd:admin
+#
+#
+#######################################
+
+version: "3"
+
+services:
+  db:
+    image: "mysql"
+    container_name: "db-mysql"
+    restart: "unless-stopped"
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: "autter"
+      MYSQL_USER: "autter_admin"
+      MYSQL_PASSWORD: "autter@12345"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./xmpp/database:/var/lib/mysql
+      - ./xmpp/conf:/etc/mysql/conf.d
+      - ./xmpp/init:/docker-entrypoint-initdb.d
+      # add ./xmpp/init/01.sql from https://raw.githubusercontent.com/processone/ejabberd/master/sql/mysql.sql
+
+  adminer:
+    image: "adminer"
+    container_name: "db-adminer"
+    restart: "unless-stopped"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  xmpp-ejabberd:
+    image: rroemhild-ejabberd-custom
+    build: ./xmpp/ejabberd-image
+    container_name: "xmpp-ejabberd"
+    restart: "unless-stopped"
+    ports:
+      - 5222:5222
+      - 5269:5269
+      - 5280:5280
+    depends_on:
+      - db
+    volumes:
+      - "./xmpp/ssl:/opt/ejabberd/ssl"
+      - "./xmpp/backup:/opt/ejabberd/backup"
+      - "./xmpp/upload:/opt/ejabberd/upload"
+      - "./xmpp/database:/opt/ejabberd/database"
+      - "./xmpp/logs:/home/ejabberd/logs"
+    environment:
+      - EJABBERD_ADMINS=admin@localhost
+      - EJABBERD_USERS=admin@localhost:autter@12345
+
+  # sudo docker-compose exec xmpp-ejabberd ejabberdctl oauth_issue_token admin@localhost 315400000000 ejabberd:admin
+  # sql port value can be changed in ejabberd.yml.tpl. default 3306
+
+  # xmpp-ejabberd:
+  #   image: "ejabberd/ecs"
+  #   container_name: "xmpp-ejabberd"
+  #   restart: "unless-stopped"
+  #   ports:
+  #     - "5222:5222"
+  #     - "5269:5269"
+  #     - "5280:5280"
+  #   depends_on:
+  #     - db
+  #   volumes:
+  #     - ./xmpp/conf:/home/ejabberd/conf
+  #     - ./xmpp/database:/home/ejabberd/database
+  #     - ./xmpp/logs:/home/ejabberd/logs
+  #     - ./xmpp/backup:/home/ejabberd/backup
+  #     - ./xmpp/ssl:/home/ejabberd/ssl
+  #     - ./xmpp/upload:/home/ejabberd/upload
+# Run Command: sudo chown 9000:9000 database
