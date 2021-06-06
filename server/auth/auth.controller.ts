@@ -18,4 +18,29 @@ export class AuthController {
       return err;
     }
   }
+
+  @Post('signup')
+  async signup(@Req() req: Request, @Ip() ip): Promise<any> {
+    try {
+      let res: any = await this.auth.register(req.body).toPromise();
+      console.log(res.data);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
+
+  @Post('change_password')
+  async changePassword(@Req() req: Request, @Ip() ip): Promise<any> {
+    try {
+      let res1: any = await this.auth.checkPassword({user:req.body.user,password: req.body.oldpass}).toPromise();
+      if(res1.data == 1) return 1;
+      let res2:any = await this.auth.changePassword({user:req.body.user,newpass: req.body.newpass}).toPromise();
+      return res2.data
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
 }

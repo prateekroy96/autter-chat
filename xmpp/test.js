@@ -1,4 +1,4 @@
-const secrets = require("../config").SECRETS;
+const secrets = require("./secret");
 const rp = require("request-promise");
 
 async function addUser(data) {
@@ -123,8 +123,43 @@ async function backup(data) {
     };
   }
 }
-getAllUsers({
-  username: "abhinav",
+async function checkPassword(data) {
+  try {
+    if (!data.username || !data.password) {
+      return {
+        status_code: 400,
+        status: false,
+        message: "Either Username or Password Missing",
+      };
+    }
+    let res = await rp({
+      method: "POST",
+      uri: secrets.XMPP_ADMIN_URL + "api/check_password",
+      headers: {
+        Authorization: "Bearer " + secrets.XMPP_ADMIN_TOKEN,
+      },
+      body: {
+        user: data.username,
+        host: secrets.XMPP_HOST,
+        password: data.password,
+      },
+      json: true,
+    });
+    return {
+      status_code: 200,
+      status: true,
+      message: res,
+    };
+  } catch (err) {
+    return {
+      status_code: 400,
+      status: false,
+      message: err.message,
+    };
+  }
+}
+checkPassword({
+  username: "prateek",
   password: "12345678",
 })
   .then(console.log)
