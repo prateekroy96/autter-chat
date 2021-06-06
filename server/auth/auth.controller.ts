@@ -8,11 +8,14 @@ import {
   Post,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { JwtService } from '@nestjs/jwt';
+import { JwtAuthGuard } from 'server/guards/jwt-auth.guard';
+import { LocalAuthGuard } from 'server/guards/local-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -21,6 +24,7 @@ export class AuthController {
   @Post('login')
   async login(@Req() req: Request, @Ip() ip): Promise<any> {
     try {
+      console.log("LOGIN BODY",req.body)
       let res: any = await this.auth.checkPassword(req.body).toPromise();
       if (res.data == 1)
         throw new HttpException(
@@ -39,10 +43,11 @@ export class AuthController {
       throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-
+  @UseGuards(JwtAuthGuard)
   @Post('verify')
   async verify(@Req() req: Request, @Ip() ip): Promise<any> {
     try {
+      console.log("VERIFY",req.body,req.user)
       return 1;
     } catch (err) {
       console.log(err);

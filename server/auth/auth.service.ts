@@ -27,7 +27,7 @@ export class AuthService {
     return this.httpService.post(
       xmppConfig.XMPP_ADMIN_URL + 'api/check_password',
       {
-        user: data.user,
+        user: data.username,
         host: xmppConfig.XMPP_HOST,
         password: data.password,
       },

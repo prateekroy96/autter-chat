@@ -8,9 +8,11 @@ import { Strategy } from 'passport-local';
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly authService: AuthService) {
     super();
+    console.log("JWT STRATEGY")
   }
 
   async validate(data): Promise<any> {
+    console.log("VALIDATE LOCAL")
     const user = await this.authService.validateUser(data).toPromise();
     if (user.data == 1) {
       throw new UnauthorizedException();
