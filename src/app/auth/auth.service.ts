@@ -16,8 +16,4 @@ export class AuthService {
   signup(data): Observable<any> {
     return this.httpClient.post(endpoints.signup.url, data);
   }
-
-  verify(data): Observable<any> {
-    return this.httpClient.post(endpoints.verify.url, data);
-  }
 }

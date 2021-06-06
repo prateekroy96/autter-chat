@@ -2,11 +2,27 @@ import { xmppConfig } from './../config/xmpp-server.config';
 import { HttpService, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
-
+import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
-  constructor(private httpService: HttpService) {}
-
+  constructor(
+    private httpService: HttpService,
+    private jwtService: JwtService
+  ) {}
+  validateUser(data): Observable<AxiosResponse<number>> {
+    return this.httpService.post(
+      xmppConfig.XMPP_ADMIN_URL + 'api/check_account',
+      {
+        user: data.username,
+        host: xmppConfig.XMPP_HOST,
+      },
+      {
+        headers: {
+          Authorization: 'Bearer ' + xmppConfig.XMPP_ADMIN_TOKEN,
+        },
+      }
+    );
+  }
   checkPassword(data): Observable<AxiosResponse<number>> {
     return this.httpService.post(
       xmppConfig.XMPP_ADMIN_URL + 'api/check_password',
@@ -17,8 +33,8 @@ export class AuthService {
       },
       {
         headers: {
-          Authorization: "Bearer " + xmppConfig.XMPP_ADMIN_TOKEN,
-        }
+          Authorization: 'Bearer ' + xmppConfig.XMPP_ADMIN_TOKEN,
+        },
       }
     );
   }
@@ -32,8 +48,8 @@ export class AuthService {
       },
       {
         headers: {
-          Authorization: "Bearer " + xmppConfig.XMPP_ADMIN_TOKEN,
-        }
+          Authorization: 'Bearer ' + xmppConfig.XMPP_ADMIN_TOKEN,
+        },
       }
     );
   }
@@ -47,8 +63,8 @@ export class AuthService {
       },
       {
         headers: {
-          Authorization: "Bearer " + xmppConfig.XMPP_ADMIN_TOKEN,
-        }
+          Authorization: 'Bearer ' + xmppConfig.XMPP_ADMIN_TOKEN,
+        },
       }
     );
   }

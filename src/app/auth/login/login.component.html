@@ -16,15 +16,24 @@
   </div> -->
   <div class="form-container sign-in-container">
     <form [formGroup]="loginForm" (ngSubmit)="login()">
-      <h1 class="m-4">Sign in</h1>
+      <h1 class="my-4">Sign in</h1>
       <!-- <div class="social-container">
         <a href="#" class="social"><i class="fa fa-facebook-f"></i></a>
         <a href="#" class="social"><i class="fa fa-google-plus"></i></a>
         <a href="#" class="social"><i class="fa fa-linkedin"></i></a>
       </div>
       <span>or use your account</span> -->
-      <input type="email" placeholder="Email" maxlength="20" />
-      <input type="password" placeholder="Password" />
+      <input
+        type="text"
+        placeholder="Username"
+        maxlength="20"
+        formControlName="username"
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        formControlName="password"
+      />
       <a routerLink="/auth/forgot">Forgot your password?</a>
       <button type="submit">Sign In</button>
     </form>
@@ -37,7 +46,7 @@
         <button class="ghost" id="signIn">Sign In</button>
       </div> -->
       <div class="overlay-panel overlay-right">
-        <h1>Create Account</h1>
+        <h1>Autter</h1>
         <p>Dont have an account? Get Started now!</p>
         <button class="ghost" id="signUp" routerLink="/auth/signup">
           Sign Up
