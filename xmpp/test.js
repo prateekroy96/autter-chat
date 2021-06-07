@@ -1,4 +1,4 @@
-const secrets = require("./secret");
+const secrets = require("../secret");
 const rp = require("request-promise");
 
 async function addUser(data) {

@@ -17,7 +17,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
           throw err || new HttpException({
               status: false,
             status_code: HttpStatus.UNAUTHORIZED,
-            error: 'Unauthorized',
+            message: 'Unauthorized',
           }, HttpStatus.UNAUTHORIZED); 
         }
         return user;

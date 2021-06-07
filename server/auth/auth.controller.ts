@@ -16,6 +16,7 @@ import { map } from 'rxjs/operators';
 import { JwtService } from '@nestjs/jwt';
 import { JwtAuthGuard } from 'server/guards/jwt-auth.guard';
 import { LocalAuthGuard } from 'server/guards/local-auth.guard';
+import { randomBytes } from 'crypto';
 
 @Controller('auth')
 export class AuthController {
@@ -31,13 +32,22 @@ export class AuthController {
           'Invalid Username or Password',
           HttpStatus.UNAUTHORIZED
         );
-      let res2: any = {
+      let data: any = {
+        username: req.body.username,
+        type: "USER",
+        password: req.body.password
+      };
+      return {
+        status: true,
+        status_code: HttpStatus.OK,
+        message: "Login Success",
         token: this.jwtService.sign({
           username: req.body.username,
+          type: "USER",
+          password: req.body.password
         }),
-        username: req.body.username,
+        data
       };
-      return res2;
     } catch (err) {
       console.log(err);
       throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -48,7 +58,12 @@ export class AuthController {
   async verify(@Req() req: Request, @Ip() ip): Promise<any> {
     try {
       console.log("VERIFY",req.body,req.user)
-      return 1;
+      return {
+        status: true,
+        status_code: HttpStatus.OK,
+        message: "Token Validated",
+        data: req.user
+      };
     } catch (err) {
       console.log(err);
       throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
