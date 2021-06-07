@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private appService: AppService,
     private router: Router
   ) {
     this.loginForm = formBuilder.group({
@@ -47,6 +49,7 @@ export class LoginComponent implements OnInit {
         console.log(res);
         this.loginState.loading = false;
         localStorage.store('autter_token', res.token);
+        this.appService.user = {...res.data}
         this.router.navigateByUrl('/');
       },
       (err) => {

@@ -14,7 +14,7 @@ export class AppService {
     localStorage.removeItem('autter_token');
     this.router.navigateByUrl('/');
   }
-  verify(data): Observable<any> {
-    return this.httpClient.post(endpoints.verify.url, data);
+  verify(): Observable<any> {
+    return this.httpClient.post(endpoints.verify.url,{});
   }
 }
