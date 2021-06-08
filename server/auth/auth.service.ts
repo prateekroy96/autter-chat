@@ -5,7 +5,6 @@ import { AxiosResponse } from 'axios';
 import { JwtService } from '@nestjs/jwt';
 import { createCipheriv, createDecipheriv, randomBytes, scrypt } from 'crypto';
 import { promisify } from 'util';
-import * as bcrypt from 'bcrypt';
 //@ts-ignore
 import * as secret from "./../../secret.json"
 
@@ -97,12 +96,7 @@ const decryptedText = Buffer.concat([
 ]);
 
 }
-async hash(password:string){
-return await bcrypt.hash(password, this.saltOrRounds);
-}
-async isMatch(password:string,hash:string){
-  return await bcrypt.compare(password, hash);
-  }
+
   test(): Observable<AxiosResponse<number>> {
     return this.httpService.get('https://jsonplaceholder.typicode.com/todos/1');
   }
