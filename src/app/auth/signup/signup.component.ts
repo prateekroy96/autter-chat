@@ -1,3 +1,4 @@
+import { AppService } from './../../app.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -18,6 +19,7 @@ export class SignupComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private appService: AppService,
     private router: Router
   ) {
     this.signupForm = formBuilder.group({
@@ -51,6 +53,7 @@ export class SignupComponent implements OnInit {
         console.log(res);
         this.signupState.loading = false;
         localStorage.store('autter_token', res.token);
+        this.appService.user = { ...res.data };
         this.router.navigateByUrl('/');
       },
       (err) => {

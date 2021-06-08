@@ -93,6 +93,9 @@
   color: white !important;
   cursor: pointer;
 }
+.search_btn:hover {
+  color: $color1 !important;
+}
 .contacts {
   list-style: none;
   padding: 0;

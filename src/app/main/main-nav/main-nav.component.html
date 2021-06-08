@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="z-index: 1000">
   <a class="navbar-brand" href="#">
     <img
-      src="../../../assets/autter-icon.png"
+      src="/assets/autter.png"
       width="30"
       height="30"
       class="d-inline-block align-top mx-2"
@@ -28,10 +28,17 @@
       <li class="nav-item">
         <a class="nav-link disabled" href="#">Admin</a>
       </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+          Profile
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
+        </div>
+      </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <button class="ghost" type="button">Logout</button>
-    </form>
   </div>
 </nav>
 <router-outlet></router-outlet>

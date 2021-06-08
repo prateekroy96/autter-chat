@@ -11,12 +11,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { JwtService } from '@nestjs/jwt';
 import { JwtAuthGuard } from 'server/guards/jwt-auth.guard';
-import { LocalAuthGuard } from 'server/guards/local-auth.guard';
-import { randomBytes } from 'crypto';
 
 @Controller('auth')
 export class AuthController {
@@ -25,7 +21,7 @@ export class AuthController {
   @Post('login')
   async login(@Req() req: Request, @Ip() ip): Promise<any> {
     try {
-      console.log("LOGIN BODY",req.body)
+      console.log('LOGIN BODY', req.body);
       let res: any = await this.auth.checkPassword(req.body).toPromise();
       if (res.data == 1)
         throw new HttpException(
@@ -34,19 +30,19 @@ export class AuthController {
         );
       let data: any = {
         username: req.body.username,
-        type: "USER",
-        password: req.body.password
+        type: 'USER',
+        password: req.body.password,
       };
       return {
         status: true,
         status_code: HttpStatus.OK,
-        message: "Login Success",
+        message: 'Login Success',
         token: this.jwtService.sign({
           username: req.body.username,
-          type: "USER",
-          password: req.body.password
+          type: 'USER',
+          password: req.body.password,
         }),
-        data
+        data,
       };
     } catch (err) {
       console.log(err);
@@ -57,12 +53,12 @@ export class AuthController {
   @Post('verify')
   async verify(@Req() req: Request, @Ip() ip): Promise<any> {
     try {
-      console.log("VERIFY",req.body,req.user)
+      console.log('VERIFY', req.body, req.user);
       return {
         status: true,
         status_code: HttpStatus.OK,
-        message: "Token Validated",
-        data: req.user
+        message: 'Token Validated',
+        data: req.user,
       };
     } catch (err) {
       console.log(err);
@@ -73,9 +69,26 @@ export class AuthController {
   @Post('signup')
   async signup(@Req() req: Request, @Ip() ip): Promise<any> {
     try {
+      console.log('SIGNUP BODY', req.body);
       let res: any = await this.auth.register(req.body).toPromise();
-      console.log(res.data);
-      return res.data;
+      if (res.data != 'Success')
+        throw new HttpException('Registration Failed', HttpStatus.BAD_REQUEST);
+      let data: any = {
+        username: req.body.username,
+        type: 'USER',
+        password: req.body.password,
+      };
+      return {
+        status: true,
+        status_code: HttpStatus.OK,
+        message: 'Login Success',
+        token: this.jwtService.sign({
+          username: req.body.username,
+          type: 'USER',
+          password: req.body.password,
+        }),
+        data,
+      };
     } catch (err) {
       console.log(err);
       throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
