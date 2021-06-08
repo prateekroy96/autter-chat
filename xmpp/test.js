@@ -1,4 +1,4 @@
-const secrets = require("../secret");
+const secrets = require("../secret/secret.json");
 const rp = require("request-promise");
 
 async function addUser(data) {
@@ -158,7 +158,7 @@ async function checkPassword(data) {
     };
   }
 }
-checkPassword({
+getAllUsers({
   username: "prateek",
   password: "12345678",
 })

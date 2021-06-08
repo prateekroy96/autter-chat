@@ -1,2 +1,44 @@
-<p>main-nav works!</p>
+<!-- Image and text -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="z-index: 1000">
+  <a class="navbar-brand" href="#">
+    <img
+      src="/assets/autter.png"
+      width="30"
+      height="30"
+      class="d-inline-block align-top mx-2"
+      alt=""
+    />
+    <span class="color1-text" style="font-weight: bold; font-size: 20px"
+      >Autter</span
+    >
+  </a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#"
+          >Global<span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Friends</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Groups</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Admin</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+          Profile
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
 <router-outlet></router-outlet>

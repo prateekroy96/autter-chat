@@ -11,12 +11,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { JwtService } from '@nestjs/jwt';
 import { JwtAuthGuard } from 'server/guards/jwt-auth.guard';
-import { LocalAuthGuard } from 'server/guards/local-auth.guard';
-import { randomBytes } from 'crypto';
 
 @Controller('auth')
 export class AuthController {
@@ -25,60 +21,91 @@ export class AuthController {
   @Post('login')
   async login(@Req() req: Request, @Ip() ip): Promise<any> {
     try {
-      console.log("LOGIN BODY",req.body)
+      console.log('LOGIN BODY', req.body);
       let res: any = await this.auth.checkPassword(req.body).toPromise();
       if (res.data == 1)
-        throw new HttpException(
-          'Invalid Username or Password',
-          HttpStatus.UNAUTHORIZED
-        );
+    {    
+       throw new HttpException({
+          status: false,
+        status_code: HttpStatus.UNAUTHORIZED,
+        message: 'Invalid Username or Password',
+      }, HttpStatus.UNAUTHORIZED); }
       let data: any = {
         username: req.body.username,
-        type: "USER",
-        password: req.body.password
+        type: 'USER',
+        password: req.body.password,
       };
       return {
         status: true,
         status_code: HttpStatus.OK,
-        message: "Login Success",
+        message: 'Login Success',
         token: this.jwtService.sign({
           username: req.body.username,
-          type: "USER",
-          password: req.body.password
+          type: 'USER',
+          password: req.body.password,
         }),
-        data
+        data,
       };
     } catch (err) {
-      console.log(err);
-      throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      console.log(err.message);
+      throw new HttpException({
+        status: false,
+      status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+      message: err.message,
+    }, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
   @UseGuards(JwtAuthGuard)
   @Post('verify')
   async verify(@Req() req: Request, @Ip() ip): Promise<any> {
     try {
-      console.log("VERIFY",req.body,req.user)
+      console.log('VERIFY', req.body, req.user);
       return {
         status: true,
         status_code: HttpStatus.OK,
-        message: "Token Validated",
-        data: req.user
+        message: 'Token Validated',
+        data: req.user,
       };
     } catch (err) {
-      console.log(err);
-      throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      console.log(err.message);
+      throw new HttpException({
+        status: false,
+      status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+      message: err.message,
+    }, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @Post('signup')
   async signup(@Req() req: Request, @Ip() ip): Promise<any> {
     try {
+      console.log('SIGNUP BODY', req.body);
       let res: any = await this.auth.register(req.body).toPromise();
-      console.log(res.data);
-      return res.data;
+      console.log("SIGNUP RES",res.data)
+      let data: any = {
+        username: req.body.username,
+        type: 'USER',
+        password: req.body.password,
+      };
+      return {
+        status: true,
+        status_code: HttpStatus.OK,
+        message: 'Login Success',
+        token: this.jwtService.sign({
+          username: req.body.username,
+          type: 'USER',
+          password: req.body.password,
+        }),
+        data,
+      };
     } catch (err) {
-      console.log(err);
-      throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      console.log("ERR",err.message);
+      console.log(err.message);
+      throw new HttpException({
+        status: false,
+      status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+      message: err.message,
+    }, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -94,7 +121,7 @@ export class AuthController {
         .toPromise();
       return res2.data;
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
       throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
