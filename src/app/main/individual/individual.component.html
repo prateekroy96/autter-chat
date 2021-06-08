@@ -1,21 +1,29 @@
 <div class="chat sidebar bg-dark">
   <div class="card mb-sm-3 mb-md-0 contacts_card">
     <div class="card-header">
-      <form [formGroup]="searchForm" (ngSubmit)="search()">
+  
         <div class="input-group">
-          <input
+          <!-- <input
             type="text"
             placeholder="Search..."
             formControlName="username"
             class="form-control search"
+          /> -->
+          <input
+            name="state"
+            id="typeahead-basic"
+            type="text"
+            placeholder="Search by username"
+            class="form-control search"
+            [ngbTypeahead]="search"
           />
           <div class="input-group-prepend">
-            <span class="input-group-text search_btn" (click)="search()"
+            <span class="input-group-text search_btn"
               ><i class="fa fa-search"></i
             ></span>
           </div>
         </div>
-      </form>
+  
     </div>
     <div class="card-body contacts_body">
       <ul class="contacts">

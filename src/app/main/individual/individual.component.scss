@@ -91,10 +91,7 @@
   background-color: rgba(0, 0, 0, 0.3) !important;
   border: 0 !important;
   color: white !important;
-  cursor: pointer;
-}
-.search_btn:hover {
-  color: $color1 !important;
+  opacity: 0.3;
 }
 .contacts {
   list-style: none;

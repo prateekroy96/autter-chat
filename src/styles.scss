@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "./app/style/button.scss";
+
+/* Importing Bootstrap SCSS file. */
+@import "~bootstrap/scss/bootstrap";
 .color1-text {
   color: $color1;
 }
@@ -13,4 +16,14 @@ footer {
   right: 0;
   text-align: center;
   z-index: 999;
+}
+.dropdown-menu {
+  width: 358px;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: $background3 !important;
+  border-radius: 0px !important;
 }

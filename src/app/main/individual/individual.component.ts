@@ -3,7 +3,8 @@ import { AppService } from './../../app.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-individual',
@@ -35,22 +36,34 @@ export class IndividualComponent implements OnInit {
     return this.searchForm.get('username');
   }
   searchSub: Subscription;
-  search() {
-    // console.log(this.searchForm.value);
-    // if (this.searchState.loading) return;
-    // this.searchState.submitted = true;
-    // if (this.searchForm.invalid) return;
-    // if (this.searchSub) this.searchSub.unsubscribe();
-    // this.searchState.loading = true;
-    // this.searchSub = this.mainService.search(this.searchForm.value).subscribe(
-    //   (res) => {
-    //     console.log(res);
-    //     this.searchState.loading = false;
-    //   },
-    //   (err) => {
-    //     console.log(err);
-    //     this.searchState.loading = false;
-    //   }
-    // );
+
+  search=(text$: Observable<string>): Observable<string[]> =>{
+    console.log("search call");
+    return text$.pipe(
+      debounceTime(500),
+      switchMap((term) => {
+        console.log("searching");
+        let result: string[] = [];
+        if (term.length < 2) return of(result);
+        else   return this.mainService.searchUser({username: term})
+        .pipe(
+          catchError((err, caught) => {
+            return of([]);
+          }),
+          map((res: any) =>
+            {
+              console.log("search res",res)
+              let data:string[] = [];
+              if(res.status){
+                data.push(res.data.username)
+              }
+              console.log(data)
+              return data;
+            }
+          )
+        );
+        
+      })
+    );
   }
 }

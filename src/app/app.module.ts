@@ -8,6 +8,7 @@ import { Injectable, NgModule, ErrorHandler } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -29,6 +30,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     AppRoutingModule,
     RouterModule,
     CoreModule,
+    NgbModule,
   ],
   providers: [
     {

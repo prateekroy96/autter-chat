@@ -120,7 +120,7 @@ export class MainService {
     console.log(msg);
     this.conn.send(msg);
   }
-  search(data): Observable<any> {
+  searchUser(data): Observable<any> {
     return this.httpClient.post(endpoints.search_user.url, data);
   }
 }
