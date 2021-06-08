@@ -1,12 +1,10 @@
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
-
-import { LocalStrategy } from './../strategies/local.strategy';
-import { JwtStrategy } from './../strategies/jwt.strategy';
 import { HttpModule, Module } from '@nestjs/common';
 import { jwtConstants } from '../constants';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from 'server/strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -18,7 +16,7 @@ import { PassportModule } from '@nestjs/passport';
     }),
   ],
   controllers: [UserController],
-  providers: [UserService, LocalStrategy, JwtStrategy],
-  exports: [UserService, LocalStrategy, JwtStrategy],
+  providers: [UserService,JwtStrategy],
+  exports: [UserService ],
 })
 export class UserModule {}
