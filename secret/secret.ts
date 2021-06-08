@@ -5,5 +5,5 @@ export const secret = {
   XMPP_HOST: 'localhost',
   IV: '1234567890123456',
   PASSWORD: "password's password",
-  WS: 'ws://192.168.12.112:5443/ws',
+  WS: 'ws://192.168.12.112:5280/ws',
 };

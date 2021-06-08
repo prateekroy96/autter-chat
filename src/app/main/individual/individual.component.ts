@@ -27,7 +27,9 @@ export class IndividualComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.mainService.connect()
+  }
 
   get username() {
     return this.searchForm.get('username');

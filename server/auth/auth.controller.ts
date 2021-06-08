@@ -24,10 +24,12 @@ export class AuthController {
       console.log('LOGIN BODY', req.body);
       let res: any = await this.auth.checkPassword(req.body).toPromise();
       if (res.data == 1)
-        throw new HttpException(
-          'Invalid Username or Password',
-          HttpStatus.UNAUTHORIZED
-        );
+    {    
+       throw new HttpException({
+          status: false,
+        status_code: HttpStatus.UNAUTHORIZED,
+        message: 'Invalid Username or Password',
+      }, HttpStatus.UNAUTHORIZED); }
       let data: any = {
         username: req.body.username,
         type: 'USER',
@@ -45,8 +47,12 @@ export class AuthController {
         data,
       };
     } catch (err) {
-      console.log(err);
-      throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      console.log(err.message);
+      throw new HttpException({
+        status: false,
+      status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+      message: err.message,
+    }, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
   @UseGuards(JwtAuthGuard)
@@ -61,8 +67,12 @@ export class AuthController {
         data: req.user,
       };
     } catch (err) {
-      console.log(err);
-      throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      console.log(err.message);
+      throw new HttpException({
+        status: false,
+      status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+      message: err.message,
+    }, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -71,8 +81,7 @@ export class AuthController {
     try {
       console.log('SIGNUP BODY', req.body);
       let res: any = await this.auth.register(req.body).toPromise();
-      if (res.data != 'Success')
-        throw new HttpException('Registration Failed', HttpStatus.BAD_REQUEST);
+      console.log("SIGNUP RES",res.data)
       let data: any = {
         username: req.body.username,
         type: 'USER',
@@ -90,8 +99,13 @@ export class AuthController {
         data,
       };
     } catch (err) {
-      console.log(err);
-      throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      console.log("ERR",err.message);
+      console.log(err.message);
+      throw new HttpException({
+        status: false,
+      status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+      message: err.message,
+    }, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -107,7 +121,7 @@ export class AuthController {
         .toPromise();
       return res2.data;
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
       throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }

@@ -2,8 +2,7 @@ import { xmppConfig } from './../config/xmpp-server.config';
 import { HttpService, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
-import { JwtService } from '@nestjs/jwt';
-import { createCipheriv, createDecipheriv, randomBytes, scrypt } from 'crypto';
+import { createCipheriv, createDecipheriv, scrypt } from 'crypto';
 import { promisify } from 'util';
 import { secret } from 'secret/secret';
 
@@ -12,10 +11,7 @@ export class AuthService {
   readonly iv = secret.IV;
   readonly password = secret.PASSWORD;
   readonly saltOrRounds: number = 10;
-  constructor(
-    private httpService: HttpService,
-    private jwtService: JwtService
-  ) {}
+  constructor(private httpService: HttpService) {}
   validateUser(data): Observable<AxiosResponse<number>> {
     return this.httpService.post(
       xmppConfig.XMPP_ADMIN_URL + 'api/check_account',

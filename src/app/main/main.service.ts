@@ -83,6 +83,43 @@ export class MainService {
       });
     }
   }
+
+  ping() {
+    let start_time = new Date().getTime();
+    this.conn.addHandler(
+      (iq) => {
+        var elapsed = new Date().getTime() - start_time;
+        console.log('Received pong from server in ' + elapsed + 'ms.');
+        return false;
+      },
+      null,
+      'iq',
+      null,
+      'ping1'
+    );
+    let domain = Strophe.getDomainFromJid(this.conn.jid);
+    var ping = $iq({
+      to: domain,
+      type: 'get',
+      id: 'ping1',
+    }).c('ping', { xmlns: 'urn:xmpp:ping' });
+
+    console.log('Sending ping to ' + domain + '.');
+
+    this.conn.send(ping);
+  }
+  send(to, text) {
+    // var builder = new Strophe.Builder("message", {
+    //   to: this.to + "@localhost",
+    //   body: this.text,
+    //   "xml:lang": "en",
+    // });
+    var msg = $msg({ to: to + '@localhost', type: 'chat' })
+      .c('body')
+      .t(text);
+    console.log(msg);
+    this.conn.send(msg);
+  }
   search(data): Observable<any> {
     return this.httpClient.post(endpoints.search_user.url, data);
   }

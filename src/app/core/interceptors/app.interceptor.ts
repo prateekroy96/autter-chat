@@ -15,7 +15,7 @@ export class AppInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let token = localStorage.getItem('autter_token');
-
+console.log("INTERCEPTOR")
     let copyReq;
     if (token) {
       copyReq = req.clone({
