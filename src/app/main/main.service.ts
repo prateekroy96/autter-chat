@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AppService } from './../app.service';
 import { Injectable } from '@angular/core';
 import { secret } from 'secret/secret';
+import { Observable } from 'rxjs';
 declare var Strophe;
 declare var $iq;
 declare var $msg;
@@ -82,5 +83,7 @@ export class MainService {
       });
     }
   }
-  search(data) {}
+  search(data): Observable<any> {
+    return this.httpClient.post(endpoints.search_user.url, data);
+  }
 }
