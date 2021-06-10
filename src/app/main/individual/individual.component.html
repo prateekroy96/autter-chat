@@ -1,48 +1,62 @@
 <div class="chat sidebar bg-dark">
   <div class="card mb-sm-3 mb-md-0 contacts_card">
     <div class="card-header">
-  
-        <div class="input-group">
-          <!-- <input
+      <div class="input-group">
+        <!-- <input
             type="text"
             placeholder="Search..."
             formControlName="username"
             class="form-control search"
           /> -->
-          <input
-            name="state"
-            id="typeahead-basic"
-            type="text"
-            placeholder="Search by username"
-            class="form-control search"
-            [ngbTypeahead]="search"
-          />
-          <div class="input-group-prepend">
-            <span class="input-group-text search_btn"
-              ><i class="fa fa-search"></i
-            ></span>
-          </div>
+        <input
+          name="state"
+          id="typeahead-basic"
+          type="text"
+          placeholder="Search by username"
+          class="form-control search"
+          [ngbTypeahead]="search"
+          (selectItem)="click$.next($event.item)"
+        />
+        <div class="input-group-prepend">
+          <span class="input-group-text search_btn"
+            ><i class="fa fa-search"></i
+          ></span>
         </div>
-  
+      </div>
     </div>
     <div class="card-body contacts_body">
       <ul class="contacts">
-        <li class="active">
-          <div class="d-flex bd-highlight">
+        <li
+          *ngFor="let username of keys(mainService.strangers)"
+          (click)="select(username)"
+        >
+          <div
+            class="d-flex bd-highlight"
+            [ngClass]="{ active: username == stranger }"
+          >
             <div class="img_cont">
               <img
-                src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png"
+                src="{{ mainService.strangers[username].image }}"
                 class="rounded-circle user_img"
               />
-              <span class="online_icon"></span>
+              <!-- <span
+                class="online_icon"
+                [ngClass]="{ offline: !mainService.strangers[username].online }"
+              ></span> -->
             </div>
             <div class="user_info">
-              <span>jassa</span>
-              <p>Kalid is online</p>
+              <span>{{ username }}</span>
+              <p>
+                {{ username }} is
+                {{
+                  mainService.strangers[username].online ? "online" : "offline"
+                }}
+              </p>
             </div>
           </div>
         </li>
-        <li>
+
+        <!-- <li>
           <div class="d-flex bd-highlight">
             <div class="img_cont">
               <img
@@ -101,7 +115,7 @@
               <p>Rashid left 50 mins ago</p>
             </div>
           </div>
-        </li>
+        </li> -->
       </ul>
     </div>
     <div class="card-footer"></div>
@@ -109,18 +123,29 @@
 </div>
 
 <div class="chat bg-dark chatbox">
-  <div class="card" style="margin-left: 415px">
+  <div *ngIf="!stranger" class="card" style="margin-left: 415px">
+    <div class="card-header msg_head">
+      <div class="bd-highlight">
+        <div class="user_info" style="text-align: center">
+          <div class="user_info">
+            <span style="font-size: 32px; opacity: 0.2">No User Selected</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="stranger" class="card" style="margin-left: 415px">
     <div class="card-header msg_head">
       <div class="d-flex bd-highlight">
         <div class="img_cont">
           <img
-            src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png"
+            src="{{ mainService.strangers[stranger].image }}"
             class="rounded-circle user_img"
           />
           <span class="online_icon"></span>
         </div>
         <div class="user_info">
-          <span>Chat with jassa</span>
+          <span>{{ stranger }}</span>
           <p>1767 Messages</p>
         </div>
         <div class="video_cam">
@@ -139,109 +164,60 @@
       </div>
     </div>
     <div class="card-body msg_card_body">
-      <div class="d-flex justify-content-start mb-4">
-        <div class="img_cont_msg">
-          <img
-            src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png"
-            class="rounded-circle user_img_msg"
-          />
+      <div *ngFor="let chat of mainService.strangers[stranger].chat">
+        <div
+          *ngIf="chat.sender == 'them'"
+          class="d-flex justify-content-start mb-4"
+        >
+          <div class="img_cont_msg">
+            <img
+              src="{{ mainService.strangers[stranger].image }}"
+              class="rounded-circle user_img_msg"
+            />
+          </div>
+          <div class="msg_cotainer">
+            {{ chat.message }}
+            <span class="msg_time">{{ chat.time }}</span>
+          </div>
         </div>
-        <div class="msg_cotainer">
-          Hi, how are you samim?
-          <span class="msg_time">8:40 AM, Today</span>
-        </div>
-      </div>
-      <div class="d-flex justify-content-end mb-4">
-        <div class="msg_cotainer_send">
-          Hi jassa i am good tnx how about you?
-          <span class="msg_time_send">8:55 AM, Today</span>
-        </div>
-        <div class="img_cont_msg">
-          <img
-            src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png"
-            class="rounded-circle user_img_msg"
-          />
-        </div>
-      </div>
-      <div class="d-flex justify-content-start mb-4">
-        <div class="img_cont_msg">
-          <img
-            src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png"
-            class="rounded-circle user_img_msg"
-          />
-        </div>
-        <div class="msg_cotainer">
-          I am good too, thank you for your chat template
-          <span class="msg_time">9:00 AM, Today</span>
-        </div>
-      </div>
-      <div class="d-flex justify-content-end mb-4">
-        <div class="msg_cotainer_send">
-          You are welcome
-          <span class="msg_time_send">9:05 AM, Today</span>
-        </div>
-        <div class="img_cont_msg">
-          <img
-            src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png"
-            class="rounded-circle user_img_msg"
-          />
-        </div>
-      </div>
-      <div class="d-flex justify-content-start mb-4">
-        <div class="img_cont_msg">
-          <img
-            src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png"
-            class="rounded-circle user_img_msg"
-          />
-        </div>
-        <div class="msg_cotainer">
-          I am looking for your next templates
-          <span class="msg_time">9:07 AM, Today</span>
-        </div>
-      </div>
-      <div class="d-flex justify-content-end mb-4">
-        <div class="msg_cotainer_send">
-          Ok, thank you have a good day
-          <span class="msg_time_send">9:10 AM, Today</span>
-        </div>
-        <div class="img_cont_msg">
-          <img
-            src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png"
-            class="rounded-circle user_img_msg"
-          />
-        </div>
-      </div>
-      <div class="d-flex justify-content-start mb-4">
-        <div class="img_cont_msg">
-          <img
-            src="https://therichpost.com/wp-content/uploads/2020/06/avatar2.png"
-            class="rounded-circle user_img_msg"
-          />
-        </div>
-        <div class="msg_cotainer">
-          Bye, see you
-          <span class="msg_time">9:12 AM, Today</span>
+
+        <div
+          *ngIf="chat.sender == 'you'"
+          class="d-flex justify-content-end mb-4"
+        >
+          <div class="msg_cotainer_send">
+            {{ chat.message }}
+            <span class="msg_time_send">{{ chat.time }}</span>
+          </div>
+          <div class="img_cont_msg">
+            <img
+              src="{{ appService.user.image }}"
+              class="rounded-circle user_img_msg"
+            />
+          </div>
         </div>
       </div>
     </div>
     <div class="card-footer">
-      <div class="input-group">
+      <form class="input-group" [formGroup]="msgForm" (ngSubmit)="msg()">
         <div class="input-group-append">
           <span class="input-group-text attach_btn"
             ><i class="fa fa-paperclip"></i
           ></span>
         </div>
-        <textarea
+        <input
           name=""
           class="form-control type_msg"
           placeholder="Type your message..."
-        ></textarea>
+          formControlName="message"
+          maxlength="100"
+        />
         <div class="input-group-append">
           <span class="input-group-text send_btn"
             ><i class="fa fa-location-arrow"></i
           ></span>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </div>

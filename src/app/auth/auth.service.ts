@@ -16,4 +16,8 @@ export class AuthService {
   signup(data): Observable<any> {
     return this.httpClient.post(endpoints.signup.url, data);
   }
+
+  getImage(data): Observable<any> {
+    return this.httpClient.post(endpoints.getImage.url, data);
+  }
 }

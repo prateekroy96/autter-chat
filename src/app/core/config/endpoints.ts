@@ -17,4 +17,16 @@ export const endpoints = {
     process: 'Searching Users',
     url: environment.baseUrl + 'api/user/search_user',
   },
+  setImage: {
+    process: 'Updating Image',
+    url: environment.baseUrl + 'api/user/set_image',
+  },
+  getImage: {
+    process: 'Fetching Image',
+    url: environment.baseUrl + 'api/user/get_image',
+  },
+  getUserImage: {
+    process: 'Fetching Image',
+    url: environment.baseUrl + 'api/user/get_user_image',
+  },
 };

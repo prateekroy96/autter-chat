@@ -1,0 +1,15 @@
+@import "./../../style/variables.scss";
+.modal-header,
+.modal-footer {
+  background-color: $background4;
+  border-width: 0px;
+  color: white;
+}
+.modal-body {
+  background-color: white;
+  border-width: 0px;
+  color: #222;
+}
+.image-cropper div {
+  width: auto;
+}

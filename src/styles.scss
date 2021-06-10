@@ -3,6 +3,9 @@
 
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";
+a {
+  cursor: pointer;
+}
 .color1-text {
   color: $color1;
 }
@@ -22,8 +25,20 @@ footer {
   margin: 0px !important;
   padding: 0px !important;
 }
+.dropdown-menu.small {
+  width: 100px;
+  background-color: $background4;
+}
+.dropdown-item {
+  color: #fff !important;
+}
+.dropdown-item:hover,
+.dropdown-item:focus {
+  color: $color1 !important;
+  background-color: $background3 !important;
+}
 .dropdown-item.active,
 .dropdown-item:active {
-  background-color: $background3 !important;
+  background-color: $background4 !important;
   border-radius: 0px !important;
 }

@@ -77,8 +77,8 @@ async function getPhoto(data) {
       body: {
         user: data.username,
         host: secrets.XMPP_HOST,
-        name: "N",
-        subname: "MIDDLE",
+        name: "PHOTO",
+        subname: "BINVAL",
       },
       json: true,
     });
@@ -218,7 +218,7 @@ async function checkPassword(data) {
   }
 }
 getPhoto({
-  username: "prateek",
+  username: "gagan",
   number: "alex",
 })
   .then(console.log)

@@ -99,10 +99,17 @@
 }
 .contacts li {
   width: 100% !important;
-  padding: 5px 10px;
+
   margin-bottom: 15px !important;
+  cursor: pointer;
 }
-.active {
+.contacts li:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.contacts li div {
+  padding: 10px 10px;
+}
+div.active {
   background-color: rgba(0, 0, 0, 0.3);
 }
 .user_img {
@@ -180,18 +187,22 @@
   color: white;
 }
 .msg_time {
+  display: inline-block;
   position: absolute;
   left: 0;
   bottom: -15px;
   color: rgba(255, 255, 255, 0.5);
   font-size: 10px;
+  min-width: 150px;
 }
 .msg_time_send {
+  display: inline-block;
   position: absolute;
   right: 0;
   bottom: -15px;
   color: rgba(255, 255, 255, 0.5);
   font-size: 10px;
+  min-width: 150px;
 }
 .msg_head {
   position: relative;

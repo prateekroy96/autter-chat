@@ -6,9 +6,16 @@ import {
   Router,
 } from '@angular/router';
 import { AppService } from 'src/app/app.service';
-@Injectable()
-export class LoginGuard implements CanActivate {
-  constructor(private appService: AppService, private router: Router) {}
+import { MainService } from 'src/app/main/main.service';
+@Injectable({
+  providedIn: 'root',
+})
+export class AdminGuard implements CanActivate {
+  constructor(
+    private appService: AppService,
+    private router: Router,
+    private mainService: MainService
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -18,6 +25,9 @@ export class LoginGuard implements CanActivate {
       this.appService.verify().subscribe(
         (res: any) => {
           console.log('auth res', res);
+          if (this.appService.user.username !== res.data.username) {
+            this.mainService.purge();
+          }
           this.appService.user = { ...res.data };
           if (this.appService.user.type == 'ADMIN') {
             resolve(true);
