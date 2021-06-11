@@ -16,7 +16,6 @@ declare var $iq;
 declare var $msg;
 declare var $pres;
 declare var jQuery;
-const $ = jQuery;
 
 @Component({
   selector: 'app-individual',
@@ -51,17 +50,17 @@ export class IndividualComponent implements OnInit {
     });
     this.mainService.message$.subscribe((msg) => {
       console.log('MESSAGE: ', msg);
-      let isDelayed: boolean = $(msg).find('delay').length > 0;
+      let isDelayed: boolean = jQuery(msg).find('delay').length > 0;
 
       let time = null;
       if (isDelayed) {
         time = new Date(
-          $($(msg).find('delay')[0]).attr('stamp')
+          jQuery(jQuery(msg).find('delay')[0]).attr('stamp')
         ).toLocaleString();
       } else {
         time = new Date().toLocaleString();
       }
-      let username: string = $(msg).attr('from').split('@')[0];
+      let username: string = jQuery(msg).attr('from').split('@')[0];
       // let message: string = Strophe.getText(
       //   msg.getElementsByTagName('body')[0]
       // );
