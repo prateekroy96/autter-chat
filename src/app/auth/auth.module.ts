@@ -1,3 +1,5 @@
+import { AppService } from 'src/app/app.service';
+import { AuthService } from './auth.service';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -10,5 +12,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [SignupComponent, LoginComponent, AuthNavComponent],
   imports: [CommonModule, AuthRoutingModule, ReactiveFormsModule, RouterModule],
+  providers: [AuthService, AppService],
 })
 export class AuthModule {}

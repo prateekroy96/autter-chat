@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EditUserComponent } from '../edit-user/edit-user.component';
+//import { EditUserComponent } from '../edit-user/edit-user.component';
 import { Subscription } from 'rxjs';
 import { MainService } from '../main.service';
 @Component({
@@ -46,7 +46,7 @@ export class MainNavComponent implements OnInit {
     this.router.navigateByUrl('/auth/login');
   }
   edit() {
-    this.ngbModal.open(EditUserComponent, { size: 'lg' });
+    //this.ngbModal.open(EditUserComponent, { size: 'lg' });
   }
 
   ngOnDestroy() {

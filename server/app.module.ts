@@ -1,5 +1,10 @@
 import { VerifyUserMiddleware } from './middlewares/verify-user.middleware';
-import { HttpModule, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  HttpModule,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+} from '@nestjs/common';
 import { AngularUniversalModule } from '@nestjs/ng-universal';
 import { join } from 'path';
 import { AppServerModule } from '../src/main.server';
@@ -26,9 +31,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     AuthModule,
     UserModule,
   ],
-  providers: [  JwtStrategy],
+  providers: [JwtStrategy],
   controllers: [UserController],
 })
-export class AppModule  {
-
-}
+export class AppModule {}

@@ -35,7 +35,7 @@ export class IndividualComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public mainService: MainService,
-    private appService: AppService,
+    public appService: AppService,
     private router: Router
   ) {
     this.click$.subscribe((res) => {

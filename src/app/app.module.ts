@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LocalStorage } from './core/models/localStorage';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -21,7 +22,9 @@ export class GlobalErrorHandler implements ErrorHandler {
     // other stuff for error handling.
   }
 }
-
+export function localStorageFactory() {
+  return localStorage;
+}
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -38,6 +41,7 @@ export class GlobalErrorHandler implements ErrorHandler {
       useClass: AppInterceptor,
       multi: true,
     },
+    { provide: LocalStorage, useFactory: localStorageFactory },
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     AppService,
   ],
