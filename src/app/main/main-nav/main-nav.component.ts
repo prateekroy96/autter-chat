@@ -6,6 +6,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 //import { EditUserComponent } from '../edit-user/edit-user.component';
 import { Subscription } from 'rxjs';
 import { MainService } from '../main.service';
+import { LocalStorageService } from 'src/app/local-storage.service';
+import { EditUserComponent } from '../edit-user/edit-user.component';
 @Component({
   selector: 'app-main-nav',
   templateUrl: './main-nav.component.html',
@@ -16,7 +18,8 @@ export class MainNavComponent implements OnInit {
     public appService: AppService,
     private router: Router,
     private ngbModal: NgbModal,
-    private mainService: MainService
+    private mainService: MainService,
+    private localStorageService: LocalStorageService
   ) {
     this.router.events.subscribe((event) => {
       this.ngbModal.dismissAll();
@@ -42,11 +45,11 @@ export class MainNavComponent implements OnInit {
   }
   logout() {
     this.appService.user = null;
-    localStorage.removeItem('autter_token');
+    this.localStorageService.removeItem('autter_token');
     this.router.navigateByUrl('/auth/login');
   }
   edit() {
-    //this.ngbModal.open(EditUserComponent, { size: 'lg' });
+    this.ngbModal.open(EditUserComponent, { size: 'lg' });
   }
 
   ngOnDestroy() {

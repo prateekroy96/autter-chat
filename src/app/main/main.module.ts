@@ -7,14 +7,14 @@ import { MainNavComponent } from './main-nav/main-nav.component';
 import { MainRoutingModule } from './main-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-// import { EditUserComponent } from './edit-user/edit-user.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 @NgModule({
   declarations: [
     IndividualComponent,
     GroupComponent,
     MainNavComponent,
-    // EditUserComponent,
+    EditUserComponent,
   ],
   imports: [
     CommonModule,
@@ -24,6 +24,6 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     NgbModule,
     ImageCropperModule,
   ],
-  // entryComponents: [EditUserComponent],
+  entryComponents: [EditUserComponent],
 })
 export class MainModule {}

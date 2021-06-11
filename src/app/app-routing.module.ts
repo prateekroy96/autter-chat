@@ -6,6 +6,7 @@ import { LoginGuard } from './core/guards/login.guard';
 import { UserGuard } from './core/guards/user.guard';
 import { MainNavComponent } from './main/main-nav/main-nav.component';
 import { MainModule } from './main/main.module';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -20,14 +21,14 @@ const routes: Routes = [
     canActivate: [LoginGuard],
     loadChildren: () => AuthModule,
   },
+  {
+    path: '**',
+    component: NotFoundComponent,
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, {
-      initialNavigation: 'enabled',
-    }),
-  ],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

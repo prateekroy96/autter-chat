@@ -1,10 +1,13 @@
-export abstract class LocalStorage {
+export class LocalStorage implements Storage {
+  [name: string]: any;
   readonly length: number;
-  abstract clear(): void;
-  abstract getItem(key: string): string | null;
-  abstract key(index: number): string | null;
-  abstract removeItem(key: string): void;
-  abstract setItem(key: string, data: string): void;
-  [key: string]: any;
-  [index: number]: string;
+  clear(): void {}
+  getItem(key: string): string | null {
+    return undefined;
+  }
+  key(index: number): string | null {
+    return undefined;
+  }
+  removeItem(key: string): void {}
+  setItem(key: string, value: string): void {}
 }

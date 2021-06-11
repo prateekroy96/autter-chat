@@ -24,11 +24,11 @@ export class MainService {
     this.conn = new Strophe.Connection(secret.WS);
     console.log(this.conn);
     this.conn.xmlInput = (body) => {
-      //this.showTraffic('INCOMING', body);
+      this.showTraffic('INCOMING', body);
     };
 
     this.conn.xmlOutput = (body) => {
-      //this.showTraffic('OUTGOING', body);
+      this.showTraffic('OUTGOING', body);
     };
     this.conn.connect(
       this.appService.user.username + '@localhost',

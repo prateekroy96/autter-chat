@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
+import { LocalStorageService } from 'src/app/local-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private appService: AppService,
-    private router: Router
+    private router: Router,
+    private localStorageService: LocalStorageService
   ) {
     this.loginForm = formBuilder.group({
       username: [null, [Validators.required, Validators.maxLength(20)]],
@@ -48,7 +50,7 @@ export class LoginComponent implements OnInit {
       (res) => {
         console.log(res);
         this.loginState.loading = false;
-        localStorage.setItem('autter_token', res.token);
+        this.localStorageService.setItem('autter_token', res.token);
         this.appService.user = { ...res.data };
         console.log(res.data);
         this.router.navigateByUrl('/');

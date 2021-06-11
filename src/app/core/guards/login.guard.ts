@@ -34,6 +34,7 @@ export class LoginGuard implements CanActivate {
           resolve(false);
         },
         (error: any) => {
+          console.log('EROR', error);
           resolve(true);
         }
       );

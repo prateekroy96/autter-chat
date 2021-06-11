@@ -12,6 +12,7 @@ export class AppService {
   constructor(private httpClient: HttpClient) {}
 
   verify(): Observable<any> {
+    console.log('VERIFYING');
     return this.httpClient.post(endpoints.verify.url, {});
   }
 }
