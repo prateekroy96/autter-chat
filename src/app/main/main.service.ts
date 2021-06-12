@@ -16,7 +16,9 @@ export class MainService {
   conn: any;
   strangers: any = {};
   purge() {
-    this.conn = null;
+    this.conn.options.sync = true; // Switch to using synchronous requests since this is typically called onUnload.
+    this.conn.flush();
+    this.conn.disconnect();
     this.strangers = {};
   }
   public message$ = new Subject<any>();
@@ -24,12 +26,13 @@ export class MainService {
     this.conn = new Strophe.Connection(secret.WS);
     console.log(this.conn);
     this.conn.xmlInput = (body) => {
-      this.showTraffic('INCOMING', body);
+      // this.showTraffic('INCOMING', body);
     };
 
     this.conn.xmlOutput = (body) => {
-      this.showTraffic('OUTGOING', body);
+      // this.showTraffic('OUTGOING', body);
     };
+    console.log('conn user', this.appService.user);
     this.conn.connect(
       this.appService.user.username + '@localhost',
       this.appService.user.password,
@@ -178,7 +181,7 @@ export class MainService {
           console.log(err);
           this.appService.user.base64 = null;
           this.image$.next({
-            base64: null,
+            data: { base64: null },
           });
         }
       );

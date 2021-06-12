@@ -19,7 +19,6 @@ export class UserGuard implements CanActivate {
     return new Promise((resolve, reject) => {
       this.appService.verify().subscribe(
         (res: any) => {
-          console.log('auth res', res);
           this.appService.user = { ...res.data };
           resolve(true);
         },

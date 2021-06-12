@@ -8,9 +8,12 @@ import {
   catchError,
   debounceTime,
   distinctUntilChanged,
+  first,
   map,
   switchMap,
 } from 'rxjs/operators';
+import { SubSink } from 'subsink';
+
 declare var Strophe;
 declare var $iq;
 declare var $msg;
@@ -24,8 +27,7 @@ declare var jQuery;
 })
 export class IndividualComponent implements OnInit {
   msgForm: FormGroup;
-
-  test = [];
+  subs = new SubSink();
   searchState = {
     submitted: false,
     loading: false,
@@ -38,7 +40,7 @@ export class IndividualComponent implements OnInit {
     public appService: AppService,
     private router: Router
   ) {
-    this.click$.subscribe((res) => {
+    this.subs.sink = this.click$.subscribe((res) => {
       if (mainService.strangers[res]) {
       } else {
         mainService.strangers[res] = { chat: [] };
@@ -48,7 +50,7 @@ export class IndividualComponent implements OnInit {
     this.msgForm = formBuilder.group({
       message: [null, [Validators.required, Validators.maxLength(100)]],
     });
-    this.mainService.message$.subscribe((msg) => {
+    this.subs.sink = this.mainService.message$.subscribe((msg) => {
       console.log('MESSAGE: ', msg);
       let isDelayed: boolean = jQuery(msg).find('delay').length > 0;
 
@@ -84,14 +86,16 @@ export class IndividualComponent implements OnInit {
         };
         this.mainService.updateStranger(username);
       }
-      return true;
     });
   }
-
   keys(obj) {
     return Object.keys(obj);
   }
-  ngOnInit(): void {}
+  count: number = 0;
+
+  ngOnInit(): void {
+    console.log('COUNT:::::::::', ++this.count);
+  }
   get message() {
     return this.msgForm.get('message');
   }
@@ -105,7 +109,6 @@ export class IndividualComponent implements OnInit {
     this.stranger = username;
   }
 
-  searchSub: Subscription;
   search = (text$: Observable<string>): Observable<string[]> => {
     console.log('search call');
     return text$.pipe(
@@ -132,4 +135,8 @@ export class IndividualComponent implements OnInit {
       })
     );
   };
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
 }

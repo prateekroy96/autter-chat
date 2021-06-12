@@ -49,7 +49,10 @@
               <p>
                 {{ username }} is
                 {{
-                  mainService.strangers[username].online ? "online" : "offline"
+                  "online" ||
+                    (mainService.strangers[username].online
+                      ? "online"
+                      : "offline")
                 }}
               </p>
             </div>
@@ -146,10 +149,10 @@
         </div>
         <div class="user_info">
           <span>{{ stranger }}</span>
-          <p>1767 Messages</p>
+          <p>{{ mainService.strangers[stranger].chat?.length }} Messages</p>
         </div>
         <div class="video_cam">
-          <span><i class="fa fa-video"></i></span>
+          <span><i class="fa fa-video-camera"></i></span>
           <span><i class="fa fa-phone"></i></span>
         </div>
       </div>
@@ -191,7 +194,7 @@
           </div>
           <div class="img_cont_msg">
             <img
-              src="{{ appService.user.image }}"
+              src="{{ appService.user?.image }}"
               class="rounded-circle user_img_msg"
             />
           </div>

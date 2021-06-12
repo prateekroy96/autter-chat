@@ -8,12 +8,14 @@ import { Subscription } from 'rxjs';
 import { MainService } from '../main.service';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { EditUserComponent } from '../edit-user/edit-user.component';
+import { SubSink } from 'subsink';
 @Component({
   selector: 'app-main-nav',
   templateUrl: './main-nav.component.html',
   styleUrls: ['./main-nav.component.scss'],
 })
 export class MainNavComponent implements OnInit {
+  subs = new SubSink();
   constructor(
     public appService: AppService,
     private router: Router,
@@ -31,13 +33,18 @@ export class MainNavComponent implements OnInit {
   image: string = null;
   ngOnInit(): void {
     this.mainService.getImage();
-    this.mainService.image$.subscribe((res) => {
-      if (!res) return;
-      this.appService.user.base64 = res.data.base64;
-      this.appService.user.image = `data:${'image/jpeg'};base64,${
-        res.data.base64
-      }`;
-    });
+    this.mainService.image$.subscribe(
+      (res) => {
+        if (!res) return;
+        this.appService.user.base64 = res.data.base64;
+        this.appService.user.image = `data:${'image/jpeg'};base64,${
+          res.data.base64
+        }`;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
     this.mainService.connect();
   }
   refresh() {
@@ -53,6 +60,6 @@ export class MainNavComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.mainService.conn = null;
+    this.mainService.purge();
   }
 }
