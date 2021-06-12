@@ -128,7 +128,7 @@ export class UserController {
     try {
       // console.log('get_image', req.user);
       let res: any = await this.userService.getImage(req.body).toPromise();
-      console.log('get image res', res.data);
+      // console.log('get image res', res.data);
       return {
         status: true,
         status_code: HttpStatus.OK,
